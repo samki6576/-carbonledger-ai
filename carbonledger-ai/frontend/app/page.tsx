@@ -23,11 +23,12 @@ export default function Home() {
     
     try {
       // Upload and parse
-      const uploadRes = await axios.post('http://localhost:8000/upload-invoice', formData);
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+      const uploadRes = await axios.post(`${apiUrl}/upload-invoice`, formData);
       const items = uploadRes.data.extracted_items;
       
       // Calculate emissions
-      const calcRes = await axios.post('http://localhost:8000/calculate', items);
+      const calcRes = await axios.post(`${apiUrl}/calculate`, items);
       setResult(calcRes.data);
     } catch (error) {
       console.error(error);

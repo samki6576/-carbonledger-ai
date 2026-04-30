@@ -1,4 +1,3 @@
 [build]
   base = "carbonledger-ai/frontend"
   command = "npm run build"
-  publish = ".next"
