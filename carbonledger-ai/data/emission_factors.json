@@ -1,0 +1,47 @@
+{
+  "electricity": {
+    "unit": "kWh",
+    "co2_per_unit": 0.233,
+    "source": "EPA 2024"
+  },
+  "natural_gas": {
+    "unit": "therm",
+    "co2_per_unit": 5.3,
+    "source": "EPA 2024"
+  },
+  "gasoline": {
+    "unit": "gallon",
+    "co2_per_unit": 8.89,
+    "source": "EPA 2024"
+  },
+  "diesel": {
+    "unit": "gallon",
+    "co2_per_unit": 10.18,
+    "source": "EPA 2024"
+  },
+  "air_travel_short": {
+    "unit": "mile",
+    "co2_per_unit": 0.22,
+    "source": "Defra 2024"
+  },
+  "air_travel_long": {
+    "unit": "mile",
+    "co2_per_unit": 0.16,
+    "source": "Defra 2024"
+  },
+  "shipping_truck": {
+    "unit": "ton-mile",
+    "co2_per_unit": 0.161,
+    "source": "EPA 2024"
+  },
+  "paper": {
+    "unit": "ream",
+    "co2_per_unit": 0.5,
+    "source": "Industry average"
+  },
+  "water": {
+    "unit": "gallon",
+    "co2_per_unit": 0.002,
+    "source": "USGS"
+  }
+}
