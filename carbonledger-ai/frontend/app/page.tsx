@@ -24,15 +24,15 @@ export default function Home() {
   const uploadAndCalculate = async () => {
     if (!file) return;
     setLoading(true);
-    
+
     const formData = new FormData();
     formData.append('file', file);
-    
+
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
       const uploadRes = await axios.post(`${apiUrl}/upload-invoice`, formData);
       const items = uploadRes.data.extracted_items;
-      
+
       const calcRes = await axios.post(`${apiUrl}/calculate`, items);
       setResult(calcRes.data);
     } catch (error) {
@@ -48,6 +48,20 @@ export default function Home() {
     return <Factory className="w-5 h-5 text-gray-400" />;
   };
 
+  const exportReport = () => {
+    if (!result) return;
+    const reportStr = JSON.stringify(result, null, 2);
+    const blob = new Blob([reportStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'carbon-footprint-report.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#050505] text-slate-200">
       {/* Background Decorative Gradients */}
@@ -55,7 +69,7 @@ export default function Home() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-teal-900/20 blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6 py-12 relative z-10 flex flex-col min-h-screen">
-        
+
         {/* Header */}
         <header className="flex justify-between items-center mb-16 animate-float" style={{ animationDuration: '8s' }}>
           <div className="flex items-center gap-3">
@@ -73,7 +87,7 @@ export default function Home() {
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-12 gap-8 flex-grow">
-          
+
           {/* Left Column: Upload */}
           <div className="lg:col-span-5 flex flex-col justify-center">
             <div className="mb-8">
@@ -89,8 +103,8 @@ export default function Home() {
             </div>
 
             <div className={`glass-panel p-1 rounded-2xl transition-all duration-300 ${isDragActive ? 'glass-panel-glow scale-[1.02]' : ''}`}>
-              <div 
-                {...getRootProps()} 
+              <div
+                {...getRootProps()}
                 className={`relative border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors duration-300 flex flex-col items-center justify-center min-h-[280px]
                   ${isDragActive ? 'border-emerald-400 bg-emerald-900/10' : 'border-slate-700/50 hover:border-emerald-500/50 hover:bg-slate-800/30'}`}
               >
@@ -98,7 +112,7 @@ export default function Home() {
                 <div className={`p-4 rounded-full mb-4 transition-all duration-300 ${isDragActive ? 'bg-emerald-500/20 animate-pulse-glow' : 'bg-slate-800'}`}>
                   <CloudUpload className={`w-10 h-10 ${isDragActive ? 'text-emerald-400' : 'text-slate-400'}`} />
                 </div>
-                
+
                 {file ? (
                   <div className="flex flex-col items-center animate-in fade-in zoom-in duration-300">
                     <FileText className="w-8 h-8 text-emerald-400 mb-2" />
@@ -140,7 +154,7 @@ export default function Home() {
           <div className="lg:col-span-7 flex flex-col justify-center">
             {result ? (
               <div className="glass-panel-glow p-8 rounded-3xl animate-in slide-in-from-right-8 duration-700 h-full flex flex-col justify-between">
-                
+
                 <div className="flex justify-between items-start mb-8">
                   <div>
                     <h3 className="text-slate-400 text-sm font-medium uppercase tracking-wider mb-1">Total Impact</h3>
@@ -149,7 +163,10 @@ export default function Home() {
                       <span className="text-xl text-emerald-400 font-bold">kg CO₂</span>
                     </div>
                   </div>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-colors rounded-lg text-sm font-medium text-slate-200 border border-slate-700">
+                  <button
+                    onClick={exportReport}
+                    className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-colors rounded-lg text-sm font-medium text-slate-200 border border-slate-700"
+                  >
                     <Download className="w-4 h-4" /> Export Report
                   </button>
                 </div>
@@ -170,9 +187,9 @@ export default function Home() {
                               <span className="font-bold text-emerald-400">{item.co2_kg} <span className="text-sm font-normal text-slate-500">kg</span></span>
                             </div>
                             <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                              <div 
-                                className="bg-gradient-to-r from-emerald-500 to-teal-400 h-1.5 rounded-full transition-all duration-1000 ease-out" 
-                                style={{ width: `${percentage}%`, transitionDelay: `${i * 100}ms` }} 
+                              <div
+                                className="bg-gradient-to-r from-emerald-500 to-teal-400 h-1.5 rounded-full transition-all duration-1000 ease-out"
+                                style={{ width: `${percentage}%`, transitionDelay: `${i * 100}ms` }}
                               />
                             </div>
                           </div>
