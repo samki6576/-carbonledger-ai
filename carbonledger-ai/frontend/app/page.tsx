@@ -4,8 +4,6 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { CloudUpload, Leaf, AlertCircle, FileText, Download, CheckCircle2, Factory, Car, Plane, Zap } from 'lucide-react';
-import Image from 'next/image';
-import logoImg from '../public/CarbonLedger AI Logo.png';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -50,20 +48,6 @@ export default function Home() {
     return <Factory className="w-5 h-5 text-gray-400" />;
   };
 
-  const exportReport = () => {
-    if (!result) return;
-    const reportStr = JSON.stringify(result, null, 2);
-    const blob = new Blob([reportStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'carbon-footprint-report.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#050505] text-slate-200">
       {/* Background Decorative Gradients */}
@@ -75,8 +59,8 @@ export default function Home() {
         {/* Header */}
         <header className="flex justify-between items-center mb-16 animate-float" style={{ animationDuration: '8s' }}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.4)] rounded-full overflow-hidden">
-              <Image src={logoImg} alt="CarbonLedger AI Logo" width={48} height={48} />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+              <Leaf className="text-white w-7 h-7" />
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-200">
               CarbonLedger AI
@@ -165,10 +149,7 @@ export default function Home() {
                       <span className="text-xl text-emerald-400 font-bold">kg CO₂</span>
                     </div>
                   </div>
-                  <button 
-                    onClick={exportReport}
-                    className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-colors rounded-lg text-sm font-medium text-slate-200 border border-slate-700"
-                  >
+                  <button className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-colors rounded-lg text-sm font-medium text-slate-200 border border-slate-700">
                     <Download className="w-4 h-4" /> Export Report
                   </button>
                 </div>
@@ -216,8 +197,8 @@ export default function Home() {
               </div>
             ) : (
               <div className="glass-panel p-8 rounded-3xl h-full min-h-[500px] flex flex-col items-center justify-center text-center border-dashed">
-                <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)] overflow-hidden">
-                  <Image src={logoImg} alt="CarbonLedger AI Logo" width={96} height={96} />
+                <div className="w-24 h-24 rounded-full bg-slate-800/50 flex items-center justify-center mb-6">
+                  <Leaf className="w-10 h-10 text-slate-600" />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-300 mb-2">Awaiting Data</h3>
                 <p className="text-slate-500 max-w-sm">

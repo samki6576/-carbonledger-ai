@@ -14,12 +14,12 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CarbonLedger AI",
-  description: "Turn spending into climate action with AI-driven carbon footprint analysis.",
+  description: "CarbonLedger AI turns your spending into climate action with AI-driven carbon footprint analysis.",
+
   icons: {
     icon: "/logo.png",
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
