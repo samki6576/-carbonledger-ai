@@ -48,6 +48,20 @@ export default function Home() {
     return <Factory className="w-5 h-5 text-gray-400" />;
   };
 
+  const exportReport = () => {
+    if (!result) return;
+    const reportStr = JSON.stringify(result, null, 2);
+    const blob = new Blob([reportStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'carbon-footprint-report.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#050505] text-slate-200">
       {/* Background Decorative Gradients */}
@@ -149,7 +163,10 @@ export default function Home() {
                       <span className="text-xl text-emerald-400 font-bold">kg CO₂</span>
                     </div>
                   </div>
-                  <button className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-colors rounded-lg text-sm font-medium text-slate-200 border border-slate-700">
+                  <button 
+                    onClick={exportReport}
+                    className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 transition-colors rounded-lg text-sm font-medium text-slate-200 border border-slate-700"
+                  >
                     <Download className="w-4 h-4" /> Export Report
                   </button>
                 </div>
