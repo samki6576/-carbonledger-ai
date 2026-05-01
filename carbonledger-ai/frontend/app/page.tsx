@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import { CloudUpload, Leaf, AlertCircle, FileText, Download, CheckCircle2, Factory, Car, Plane, Zap } from 'lucide-react';
 import Image from 'next/image';
+import logoImg from '../public/CarbonLedger AI Logo.png';
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
@@ -75,7 +76,7 @@ export default function Home() {
         <header className="flex justify-between items-center mb-16 animate-float" style={{ animationDuration: '8s' }}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.4)] rounded-full overflow-hidden">
-              <Image src="/logo.png" alt="CarbonLedger AI Logo" width={48} height={48} />
+              <Image src={logoImg} alt="CarbonLedger AI Logo" width={48} height={48} />
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-200">
               CarbonLedger AI
@@ -216,7 +217,7 @@ export default function Home() {
             ) : (
               <div className="glass-panel p-8 rounded-3xl h-full min-h-[500px] flex flex-col items-center justify-center text-center border-dashed">
                 <div className="w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)] overflow-hidden">
-                  <Image src="/logo.png" alt="CarbonLedger AI Logo" width={96} height={96} />
+                  <Image src={logoImg} alt="CarbonLedger AI Logo" width={96} height={96} />
                 </div>
                 <h3 className="text-2xl font-bold text-slate-300 mb-2">Awaiting Data</h3>
                 <p className="text-slate-500 max-w-sm">
