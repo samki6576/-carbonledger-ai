@@ -10,6 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [isDragActive, setIsDragActive] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
@@ -24,6 +25,7 @@ export default function Home() {
   const uploadAndCalculate = async () => {
     if (!file) return;
     setLoading(true);
+    setError(null);
 
     const formData = new FormData();
     formData.append('file', file);
@@ -35,8 +37,18 @@ export default function Home() {
 
       const calcRes = await axios.post(`${apiUrl}/calculate`, items);
       setResult(calcRes.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      if (error.response) {
+        // Server responded with error status
+        setError(`Server error: ${error.response.status} - ${error.response.data?.message || 'Unknown error'}`);
+      } else if (error.request) {
+        // Network error - no response received
+        setError('Network error: Unable to connect to the server. Please check if the backend is running and try again.');
+      } else {
+        // Error setting up request
+        setError(`Request error: ${error.message}`);
+      }
     }
     setLoading(false);
   };
@@ -152,7 +164,14 @@ export default function Home() {
 
           {/* Right Column: Results Dashboard */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            {result ? (
+            {error ? (
+              <div className="glass-panel p-8 rounded-3xl h-full flex flex-col justify-center items-center text-center">
+                <AlertCircle className="w-16 h-16 text-red-400 mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">Connection Error</h3>
+                <p className="text-slate-400 mb-4">{error}</p>
+                <p className="text-sm text-slate-500">Please check your network connection and ensure the backend server is running.</p>
+              </div>
+            ) : result ? (
               <div className="glass-panel-glow p-8 rounded-3xl animate-in slide-in-from-right-8 duration-700 h-full flex flex-col justify-between">
 
                 <div className="flex justify-between items-start mb-8">
